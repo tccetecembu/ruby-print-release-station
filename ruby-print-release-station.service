@@ -1,0 +1,11 @@
+[Unit]
+Description=Ruby Print Release Station
+After=network.target
+
+[Service]
+Type=forking
+User=root
+ExecStart=/usr/bin/unicorn -D -E production -c /var/www/ruby-print-release-station/unicorn.rb
+
+[Install]
+WantedBy=multi-user.target
