@@ -36,6 +36,14 @@ get '/api/cancel/:jobid' do |jobid|
     return "1"
 end
 
+get '/api/price/page' do
+  "#{config["price_per_page"]}"
+end
+
+get '/api/price/print' do
+  "#{config["price_per_print"]}"
+end
+
 get '/' do
   send_file File.join(settings.public_folder, 'index.html')
 end

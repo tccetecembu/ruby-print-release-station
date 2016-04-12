@@ -1,3 +1,5 @@
-printer_name: "Deskjet_5520"
+printer_name: "ImpressoraTeste"
 username: "admin"
 password: "Passw0rd"
+price_per_page: 0.5
+price_per_print: 0.0

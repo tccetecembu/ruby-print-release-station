@@ -1,3 +1,6 @@
+var pricePerPage = 0
+var pricePerPrint = 0
+
 function reloadJobs() {
     jobs = document.getElementById("jobs");
     $.ajax({
@@ -9,6 +12,7 @@ function reloadJobs() {
             html += "<th class='jobId'>ID</th>"
             html += "<th class='title'>Titulo</th>";
             html += "<th class='pages'>Páginas</th>";
+            html += "<th class='price'>Preco</th>";
             html += "<th class='resumeCancel' colspan=2>Ações</th>";
             html += "</tr>";
             data.forEach(function(job) {
@@ -16,6 +20,7 @@ function reloadJobs() {
                 html += "<td class='jobId'>"+job.id+"</span>";
                 html += "<td class='title'>"+job.title+"</span>";
                 html += "<td class='pages'>"+job.pageCount+"</span>";
+                html += "<td class='price'>"+(pricePerPrint + pricePerPage*job.pageCount)+"</span>";
                 html += "<td class='resumeLink'><a href='#' onclick='resumeJob("+job.id+")'>Continuar</a></td>";
                 html += "<td class='cancelLink'><a href='#' onclick='cancelJob("+job.id+")'>Cancelar</span></td>";
                 html += "</tr>";
@@ -44,7 +49,28 @@ function cancelJob(id) {
     actionJob("cancel", id);
 }
 
+function getPrices() {
+    $.ajax({
+        type: 'GET',
+        url: '/api/price/page',
+        dataType: 'json',
+        success: function(data) {
+            pricePerPage = data;
+        }
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: '/api/price/print',
+        dataType: 'json',
+        success: function(data) {
+            pricePerPrint = data;
+        }
+    });
+}
+
 Zepto(function($) {
+    getPrices();
     reloadJobs();
     setInterval(reloadJobs, 5000);
 })
