@@ -74,7 +74,15 @@ table#jobs tr:nth-child(odd) {
 }
 
 table#jobs tr:nth-child(even) {
-    background-color: #ddd
+    background-color: #ddd;
+}
+
+p.version {
+    position: absolute;
+    top: 95%;
+    color: #bbb;
+    margin-right: 10%;
+    right: 0;
 }
 
 /* ul#jobs li:first-child */

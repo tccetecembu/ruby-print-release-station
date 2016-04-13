@@ -10,7 +10,7 @@ function reloadJobs() {
         success: function(data) {
             html = "<tr>";
             html += "<th class='jobId'>ID</th>"
-            html += "<th class='title'>Titulo</th>";
+            html += "<th class='title'>Título</th>";
             html += "<th class='pages'>Páginas</th>";
             html += "<th class='price'>Preco</th>";
             html += "<th class='resumeCancel' colspan=2>Ações</th>";
@@ -20,7 +20,7 @@ function reloadJobs() {
                 html += "<td class='jobId'>"+job.id+"</span>";
                 html += "<td class='title'>"+job.title+"</span>";
                 html += "<td class='pages'>"+job.pageCount+"</span>";
-                html += "<td class='price'>"+(pricePerPrint + pricePerPage*job.pageCount)+"</span>";
+                html += "<td class='price'>R$ "+(pricePerPrint + pricePerPage*job.pageCount).formatMoney(2);+"</span>";
                 html += "<td class='resumeLink'><a href='#' onclick='resumeJob("+job.id+")'>Continuar</a></td>";
                 html += "<td class='cancelLink'><a href='#' onclick='cancelJob("+job.id+")'>Cancelar</span></td>";
                 html += "</tr>";
