@@ -1,23 +1,23 @@
-require "utils"
+require_relative "utils"
 require "date"
 
 module PrintingReport
-  def logPrintJob(db, job, totalPrice)
+  def PrintingReport.logPrintJob(db, job, totalPrice, date = DateTime.now)
     printLogs = db[:printLogs]
-    printLogs.insert(:jobTitle => job.title, :jobOwner => job.owner, :price => totalPrice, :date => DateTime.now)
+    printLogs.insert(:jobTitle => job.title, :jobOwner => job.owner, :price => totalPrice, :date => date)
   end
   
-  def listPrintLogs
+  def PrintingReport.listPrintLogs(db)
     printLogs = db[:printLogs]
     printLogs.all
   end
   
-  def listPrintLogsBetween(start, end_)
+  def PrintingReport.listPrintLogsBetween(db, start, end_)
     printLogs = db[:printLogs]
     printLogs.where("date > ? AND date < ?", start, end_).all
   end
   
-  def listPrintJobsOnDay(day)
-    listPrintJobsBetween(day, day + 1)
+  def PrintingReport.listPrintLogsOnDay(db, day)
+    PrintingReport.listPrintLogsBetween(db, day, day + 1)
   end
 end

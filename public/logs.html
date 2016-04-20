@@ -4,32 +4,50 @@
 		<title>Logs de Impressão</title>
 		<script src="js/jquery-2.2.3.min.js"></script>		
 		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link href="css/bootstrap-datepicker3.min.css" rel="stylesheet">
 		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <script src="js/polyfills.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/zepto.min.js"></script>
+		<script src="js/bootstrap-datepicker.min.js"></script>
+		<script src="locales/bootstrap-datepicker.pt-BR.min.js"></script>
 		
 		<link rel="stylesheet" href="css/logs.css">
 		<script src="js/logs.js"></script>
 	</head>
 	<body id="logs" onload="">
 		<!-- lol bootstrap -->
-		<div class="btn-group" data-toggle="buttons">
-			<label class="btn btn-primary active">
-				<input type="radio" name="data" id="dataHoje" onclick="onShowTodayLogsClicked()"autocomplete="off" checked>Hoje
-			</label>
-			<label class="btn btn-primary">
-				<input type="radio" name="data" id="dataDiaUnico" onclick="onShowUniqueDayLogsClicked()" autocomplete="off">Um dia
-			</label>
-			<label class="btn btn-primary">
-				<input type="radio" name="data" id="dataVariosDias" onclick="onShowMultipleDaysLogsClicked()"autocomplete="off">Vários dias
-			</label>
+		<h1 class="pagetitle">Logs de Impressão</h1>
+		
+		<div class="text-center">
+			<div class="btn-group" data-toggle="buttons">
+				<label class="btn btn-primary active">
+					<input type="radio" name="data" id="dataHoje" onchange="onShowTodayLogsClicked()"autocomplete="off" checked>Hoje
+				</label>
+				<label class="btn btn-primary">
+					<input type="radio" name="data" id="dataDiaUnico" onchange="onShowUniqueDayLogsClicked()" autocomplete="off">Um dia
+				</label>
+				<label class="btn btn-primary">
+					<input type="radio" name="data" id="dataVariosDias" onchange="onShowMultipleDaysLogsClicked()"autocomplete="off">Vários dias
+				</label>
+			</div>
 		</div>
 		<div id="singleDateSelector" hidden>
+			<div class="input-group date">
+			  <input type="text" onchange="updateSingleDayLog()" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+			</div>
 		</div>
 		<div id="doubleDateSelector" hidden>
+			<div class="input-daterange input-group" id="datepicker">
+			    <input type="text" onchange="updateMultipleDayLog()" class="input-sm form-control" name="start" />
+			    <span class="input-group-addon">até</span>
+			    <input type="text" onchange="updateMultipleDayLog()" class="input-sm form-control" name="end" />
+			</div>
 		</div>
 		
 		<table id="logsTable">
 		</table>
+		
+		<p class="version">v1.0 &mdash; The Steel Monster Above The City</p>
 	</body>
 </html>
