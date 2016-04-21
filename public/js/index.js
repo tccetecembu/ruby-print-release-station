@@ -25,7 +25,15 @@ function reloadJobs() {
                 html += "<td class='cancelLink'><a href='#' onclick='cancelJob("+job.id+")'>Cancelar</span></td>";
                 html += "</tr>";
             });
-            jobs.innerHTML = html;
+			
+			if (data.length > 0) {
+				jobs.innerHTML = html;
+				$('#jobs').show();
+				$('#nojobs').hide();				
+			} else {
+				$('#jobs').hide();
+				$('#nojobs').show();
+			}
         }
     });
 }
@@ -69,8 +77,21 @@ function getPrices() {
     });
 }
 
-Zepto(function($) {
+function changeBackground() {
+	$.ajax({
+		type: 'GET',
+		url: '/api/images/getRandomBackground',
+		dataType: 'text',
+		success: function(data) {
+			$('body').css('background-image', 'url('+data+')');
+		}
+	})
+}
+
+$(document).ready(function() {
     getPrices();
     reloadJobs();
+	changeBackground();
+	
     setInterval(reloadJobs, 5000);
 })

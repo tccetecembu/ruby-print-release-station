@@ -5,10 +5,13 @@ require_relative "utils"
 require_relative "printing_report"
 require "yaml"
 require "sequel"
+require "pathname"
 
 config = YAML::load_file("./config.yaml")
 
 DB = Sequel.sqlite config["database"]
+
+puts settings.public_folder
 
 use Rack::Auth::Basic do |username, password|
     [username, password] == [config["username"], config["password"]]
@@ -21,7 +24,7 @@ end
 get '/api/resume/all' do
     Utils.getJobs(config["printer_name"]).each { |job|
       job.resume
-      PrintingReport.logPrintJob DB, job, (job.pageCount * config["price_per_page"] + config["price_per_print"])
+      PrintingReport.logPrintJob DB, job, (job.pageCount * config["price_per_page"] + config["price_per_print"]) if config["log_printing"]
     }
 end
 
@@ -30,7 +33,7 @@ get '/api/resume/:jobid' do |jobid|
     return "0" if job.nil?
     job.resume
     # Deviamos guardar no BD agora, no resume do job, em outro momento? Só Deus sabe.
-    PrintingReport.logPrintJob DB, job, (job.pageCount * config["price_per_page"] + config["price_per_print"])
+    PrintingReport.logPrintJob DB, job, (job.pageCount * config["price_per_page"] + config["price_per_print"]) if config["log_printing"]
     return "1"
 end
 
@@ -79,6 +82,11 @@ get '/api/logs/daysRange/:startYear/:startMonth/:startDay/:endYear/:endMonth/:en
   # É preciso adicionar um dia para listar os trabalhos que aconteceram naquele dia, até 23:59:59.
   PrintingReport.listPrintLogsBetween(DB, startDate, endDate + 1).to_json
 end 
+
+get '/api/images/getRandomBackground' do
+  picture = (Dir.glob(File.join settings.public_folder, 'images/*.png') + Dir.glob(File.join settings.public_folder, 'images/*.jpg')).shuffle.sample
+  Pathname.new(picture).relative_path_from(Pathname.new settings.public_folder).to_s
+end
 
 get '/' do
   send_file File.join(settings.public_folder, 'index.html')

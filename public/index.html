@@ -5,12 +5,20 @@
         <script src="js/polyfills.js"></script>
         <script src="js/jquery-2.2.3.min.js"></script>
         <script src="js/index.js" charset="utf-8"></script>
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" type="text/css" href="css/index.css">
     </head>
     <body>
-        <center><h1> Trabalhos a Imprimir: </h1></center>
-        <table id="jobs">
-        </table>
-        <p class="version">v1.0 &mdash; The Steel Monster Above The City</p>
+		<div id="container">
+			<center><h1> Trabalhos a Imprimir: </h1></center>
+			<div id="nojobs">
+				<h2>Não há trabalhos a exibir</h2>
+			</div>
+			<table id="jobs">
+			</table>
+			<a class="logs_link" href="/logs">Relatórios</a>
+			<p class="version">v1.0 &mdash; The Steel Monster Above The City</p>
+		</div>
     </body>
 </html>

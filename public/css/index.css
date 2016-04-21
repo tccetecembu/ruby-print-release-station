@@ -5,8 +5,38 @@
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     background-color: #FAFAFA;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; 
+  color: white;
+}
+
+.logs_link {
+	position: absolute;
+	top: 1%;
+	right: 0;
+	margin-right: 10%;
+	text-decoration: none !important;
+	color: #ddd;
+}
+
+div#container {
+	position: absolute;
+	width: 90%;
+	height: 100%;
+	margin-left: 5%;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+div#nojobs {
+	text-align: center;
+}
+
+.logs_link a:hover, .logs_link a:visited, .logs_link a:link {
+	color: #eee !important;
 }
 
 .jobid {
@@ -67,6 +97,7 @@ table#jobs {
     width: 80%;
     left: 10%;
     border-collapse: collapse;
+	color: black;
 }
 
 table#jobs tr:nth-child(odd) {
