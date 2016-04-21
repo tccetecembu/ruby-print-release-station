@@ -24,7 +24,7 @@ module Utils
             return ret
         end
         
-        return `pkpgcounter #{pkpgFile}`
+        return `pkpgcounter #{jobPath}`
     end
 
     class Job
