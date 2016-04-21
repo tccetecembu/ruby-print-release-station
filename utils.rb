@@ -1,5 +1,6 @@
 require "json"
 require "cupsffi"
+require "tempfile"
 
 module Utils
     def Utils.getSpoolPath()
@@ -13,7 +14,17 @@ module Utils
     end
     
     def Utils.getJobPageCount(jobPath)
-        return `pkpgcounter #{jobPath}`
+        # Aparentemente o pkpgcounter não se dá muito bem com arquivos comprimidos, então checar se o arquivo no spooler
+        compressed = `file #{jobPath} | grep gzip` != ""
+        if compressed
+            tmpFile = Tempfile.new "rprs"
+            `gunzip < #{jobPath} > #{tmpFile.path}`
+            ret = `pkpgcounter #{tmpFile.path}`
+            tmpFile.unlink
+            return ret
+        end
+        
+        return `pkpgcounter #{pkpgFile}`
     end
 
     class Job
