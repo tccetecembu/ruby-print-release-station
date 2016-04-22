@@ -35,43 +35,47 @@ div#nojobs {
 	text-align: center;
 }
 
-.logs_link a:hover, .logs_link a:visited, .logs_link a:link {
+.logs_link:visited, .logs_link:link {
+	color: #ddd !important;
+}
+
+.logs_link:hover {
 	color: #eee !important;
 }
 
 .jobid {
-	width: 10%;
-	text-align: center;
-	border-right: solid 1px #aaa;
+    width: 10%;
+    text-align: center;
+    border-right: solid 1px #444;
 }
 
 .title {
-	width: 30%;
-	border-left: solid 1px #aaa;
-	border-right: solid 1px #aaa;
-	padding-left: 2%;
-	padding-right: 2%;
+    width: 30%;
+    border-left: solid 1px #444;
+    border-right: solid 1px #444;
+    padding-left: 2%;
+    padding-right: 2%;
 }
 
 .pages {
-	width: 15%;
-	text-align: center;
-	border-left: solid 1px #aaa;
-	border-right: solid 1px #aaa;
+    width: 15%;
+    text-align: center;
+    border-left: solid 1px #444;
+    border-right: solid 1px #444;
 }
 
 .price {
-	width: 15%;
-	text-align: center;
-	border-left: solid 1px #aaa;
-	border-right: solid 1px #aaa;
+    width: 15%;
+    text-align: center;
+    border-left: solid 1px #444;
+    border-right: solid 1px #444;
 }
 
 
 .resumeLink {
-	width: 15%;
-	text-align: center;
-	border-left: solid 1px #aaa;
+    width: 15%;
+    text-align: center;
+    border-left: solid 1px #444;
 }
 
 .cancelLink {
@@ -93,18 +97,24 @@ div#nojobs {
 }
 
 table#jobs {
-	position: relative;
-	width: 80%;
-	left: 10%;
-	border-collapse: collapse;
+    position: relative;
+    width: 80%;
+    left: 10%;
+    margin-top: 1%;
+    border-collapse: collapse;
+}
+
+table#jobs td, table#jobs th {
+    padding-top: .3em;
+    padding-bottom: .3em;
 }
 
 table#jobs tr:nth-child(odd) {
-	background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 table#jobs tr:nth-child(even) {
-	background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.55);
 }
 
 p.version {
