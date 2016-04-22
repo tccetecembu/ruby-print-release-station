@@ -35,20 +35,24 @@ div#nojobs {
 	text-align: center;
 }
 
-.logs_link a:hover, .logs_link a:visited, .logs_link a:link {
+.logs_link:visited, .logs_link:link {
+	color: #ddd !important;
+}
+
+.logs_link:hover {
 	color: #eee !important;
 }
 
 .jobid {
     width: 10%;
     text-align: center;
-    border-right: solid 1px #aaa;
+    border-right: solid 1px #444;
 }
 
 .title {
     width: 30%;
-    border-left: solid 1px #aaa;
-    border-right: solid 1px #aaa;
+    border-left: solid 1px #444;
+    border-right: solid 1px #444;
     padding-left: 2%;
     padding-right: 2%;
 }
@@ -56,22 +60,22 @@ div#nojobs {
 .pages {
     width: 15%;
     text-align: center;
-    border-left: solid 1px #aaa;
-    border-right: solid 1px #aaa;
+    border-left: solid 1px #444;
+    border-right: solid 1px #444;
 }
 
 .price {
     width: 15%;
     text-align: center;
-    border-left: solid 1px #aaa;
-    border-right: solid 1px #aaa;
+    border-left: solid 1px #444;
+    border-right: solid 1px #444;
 }
 
 
 .resumeLink {
     width: 15%;
     text-align: center;
-    border-left: solid 1px #aaa;
+    border-left: solid 1px #444;
 }
 
 .cancelLink {
@@ -96,16 +100,21 @@ table#jobs {
     position: relative;
     width: 80%;
     left: 10%;
+    margin-top: 1%;
     border-collapse: collapse;
-	color: black;
+}
+
+table#jobs td, table#jobs th {
+    padding-top: .3em;
+    padding-bottom: .3em;
 }
 
 table#jobs tr:nth-child(odd) {
-    background-color: #eee;
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 table#jobs tr:nth-child(even) {
-    background-color: #ddd;
+    background-color: rgba(0, 0, 0, 0.55);
 }
 
 p.version {
