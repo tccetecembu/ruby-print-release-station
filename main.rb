@@ -15,7 +15,7 @@ $cachedJobs = []
 def updateJobs
     newJobs = Utils.getJobs $config["printer_name"]
     $cachedJobs.keep_if {|job| newJobs.include? job }
-    $cachedJobs = $cachedJobs + [newJobs - $cachedJobs]
+    $cachedJobs = $cachedJobs + ($newJobs - $cachedJobs)
 end
 
 use Rack::Auth::Basic do |username, password|
