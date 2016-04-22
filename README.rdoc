@@ -1,0 +1,10 @@
+== ruby-print-release-station
+
+Estação de liberação de impressão.
+
+=== Dependencias
+
+* ruby
+* sequel
+* sinatra
+* cupsffi
