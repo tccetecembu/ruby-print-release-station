@@ -1,3 +1,14 @@
+/**
+ * @file Funções relacionadas a página de relatórios de impressão.
+ *
+ * @author Ramon Dantas
+ * @license MIT
+ */
+
+/**
+ * Atualiza os logs que são mostrados na tabela.
+ * @param {Object[]} jobs - Os trabalhos, lidos da API.
+ */
 function updateJobs(jobs) {
 	html = "<tr>";
 	html += "<th class='id'>ID</th>";
@@ -19,11 +30,15 @@ function updateJobs(jobs) {
 		$('#logsTable').show();
 		$('#nojobs').hide();				
 	} else {
+		// Mostrar a mensagem do div #nojobs		
 		$('#logsTable').hide();
 		$('#nojobs').show();
 	}
 }
 
+/**
+ * Callback do botão de mostrar logs do dia de hoje.
+ */
 function onShowTodayLogsClicked() {
 	$("#doubleDateSelector").hide();
 	$("#singleDateSelector").hide();
@@ -38,18 +53,30 @@ function onShowTodayLogsClicked() {
 	})
 }
 
+/**
+ * Callback do botão de mostrar logs de um dia.
+ */
 function onShowUniqueDayLogsClicked() {
 	$("#doubleDateSelector").hide();
 	$("#singleDateSelector").show();
 	updateSingleDayLog();
 }
 
+/**
+ * Callback do botão de mostrar um período de dias.
+ */
 function onShowMultipleDaysLogsClicked() {
 	$("#singleDateSelector").hide();
 	$("#doubleDateSelector").show();
 	updateMultipleDayLog();
 }
 
+/**
+ * Converter data para o formato YYYY/MM/DD.
+ *
+ * @param {string} date Data, parseável pela classe Date.
+ * @returns {string} Data no formato YYYY/MM/DD.
+ */
 function formatDateToYYYYMMDD(date) {
 	obj = new Date(date);
 	// Meses vão de 0 a 11
@@ -57,11 +84,20 @@ function formatDateToYYYYMMDD(date) {
 	return obj.getFullYear() + "/" + (obj.getMonth()+1) + "/" + obj.getDate();
 }
 
+/**
+ * Converter data de DD/MM/YYYY para YYYY/MM/DD.
+ *
+ * @param {string} date Data no formato DD/MM/YYYY.
+ * @returns {string} Data no formato YYYY/MM/DD.
+ */
 function DDMMYYYYtoYYYYMMDD(date) {
 	arr = date.split("/");
 	return arr[2] + "/" + arr[1] + "/" + arr[0];
 }
 
+/**
+ * Atualiza os logs baseado no seletor de data de dia único.
+ */
 function updateSingleDayLog() {
 	date = $('#singleDateSelector .input-group').datepicker('getDate');
 	if (date != null) {
@@ -76,6 +112,9 @@ function updateSingleDayLog() {
 	}
 }
 
+/**
+ * Atualiza os logs baseado no seletor de data de dia múltiplo.
+ */
 function updateMultipleDayLog() {
 	startdate = $('#doubleDateSelector .input-daterange input[name="start"]').val();
 	console.log(startdate);

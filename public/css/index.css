@@ -5,13 +5,13 @@
 }
 
 body {
-    font-family: Helvetica, Arial, sans-serif;
-    background-color: #FAFAFA;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover; 
-  color: white;
+	font-family: Helvetica, Arial, sans-serif;
+	background-color: #FAFAFA;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover; 
+	color: white;
 }
 
 .logs_link {
@@ -40,80 +40,79 @@ div#nojobs {
 }
 
 .jobid {
-    width: 10%;
-    text-align: center;
-    border-right: solid 1px #aaa;
+	width: 10%;
+	text-align: center;
+	border-right: solid 1px #aaa;
 }
 
 .title {
-    width: 30%;
-    border-left: solid 1px #aaa;
-    border-right: solid 1px #aaa;
-    padding-left: 2%;
-    padding-right: 2%;
+	width: 30%;
+	border-left: solid 1px #aaa;
+	border-right: solid 1px #aaa;
+	padding-left: 2%;
+	padding-right: 2%;
 }
 
 .pages {
-    width: 15%;
-    text-align: center;
-    border-left: solid 1px #aaa;
-    border-right: solid 1px #aaa;
+	width: 15%;
+	text-align: center;
+	border-left: solid 1px #aaa;
+	border-right: solid 1px #aaa;
 }
 
 .price {
-    width: 15%;
-    text-align: center;
-    border-left: solid 1px #aaa;
-    border-right: solid 1px #aaa;
+	width: 15%;
+	text-align: center;
+	border-left: solid 1px #aaa;
+	border-right: solid 1px #aaa;
 }
 
 
 .resumeLink {
-    width: 15%;
-    text-align: center;
-    border-left: solid 1px #aaa;
+	width: 15%;
+	text-align: center;
+	border-left: solid 1px #aaa;
 }
 
 .cancelLink {
-    width: 15%;
-    text-align: center;
+	width: 15%;
+	text-align: center;
 }
 
 .resumeLink a, .cancelLink a {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 .resumeLink a:hover, .resumeLink a:visited, .resumeLink a:link,
 .cancelLink a:hover, .cancelLink a:visited, .cancelLink a:link {
-    color: #00aa00;
+	color: #00aa00;
 }
 
 .resumeCancel {
-    text-align: center;
+	text-align: center;
 }
 
 table#jobs {
-    position: relative;
-    width: 80%;
-    left: 10%;
-    border-collapse: collapse;
-	color: black;
+	position: relative;
+	width: 80%;
+	left: 10%;
+	border-collapse: collapse;
 }
 
 table#jobs tr:nth-child(odd) {
-    background-color: #eee;
+	background-color: rgba(0, 0, 0, 0.4);
 }
 
 table#jobs tr:nth-child(even) {
-    background-color: #ddd;
+	background-color: rgba(0, 0, 0, 0.2);
 }
 
 p.version {
-    position: absolute;
-    top: 95%;
-    color: #bbb;
-    margin-right: 10%;
-    right: 0;
+	position: absolute;
+	top: 95%;
+	color: #bbb;
+	margin-right: 10%;
+	right: 0;
 }
 
 /* ul#jobs li:first-child */

@@ -1,4 +1,5 @@
 require "rake"
+require "rdoc/task"
 
 require "sequel"
 require "yaml"
@@ -24,4 +25,9 @@ Rake::TestTask.new do |t|
   t.libs << "tests"
   t.test_files = FileList['tests/test*.rb']
   t.verbose = true
+end
+
+RDoc::Task.new do |rd|
+    rd.main = "README.rdoc"
+    rd.rdoc_files.include("README.rdoc", "main.rb", "utils.rb", "printing_report.rb")
 end
