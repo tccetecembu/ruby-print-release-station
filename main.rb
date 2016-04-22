@@ -10,26 +10,34 @@ require "pathname"
 config = YAML::load_file("./config.yaml")
 
 DB = Sequel.sqlite config["database"]
+$cachedJobs = []
 
-puts settings.public_folder
+def updateJobs
+    newJobs = Utils.getJobs config["printer_name"]
+    $cachedJobs.keep_if {|job| newJobs.include? job }
+    $cachedJobs = $cachedJobs + [newJobs - $cachedJobs]
+end
 
 use Rack::Auth::Basic do |username, password|
     [username, password] == [config["username"], config["password"]]
 end
 
 get '/api/list' do
-    Utils.getJobs(config["printer_name"]).to_json
+    updateJobs
+    $cachedJobs.to_json
 end
 
 get '/api/resume/all' do
-    Utils.getJobs(config["printer_name"]).each { |job|
+    updateJobs
+    $cachedJobs.each { |job|
       job.resume
       PrintingReport.logPrintJob DB, job, (job.pageCount * config["price_per_page"] + config["price_per_print"]) if config["log_printing"]
     }
 end
 
 get '/api/resume/:jobid' do |jobid|
-    job = Utils.getJobs(config["printer_name"]).find { |x| x.id == jobid.to_i }
+    updateJobs
+    job = $cachedJobs.find { |x| x.id == jobid.to_i }
     return "0" if job.nil?
     job.resume
     # Deviamos guardar no BD agora, no resume do job, em outro momento? Só Deus sabe.
@@ -38,11 +46,13 @@ get '/api/resume/:jobid' do |jobid|
 end
 
 get '/api/cancel/all' do
-    Utils.getJobs(config["printer_name"]).each { |job| job.cancel }
+    updateJobs
+    $cachedJobs.each { |job| job.cancel }
 end
 
 get '/api/cancel/:jobid' do |jobid|
-    job = Utils.getJobs(config["printer_name"]).find { |x| x.id == jobid.to_i }
+    updateJobs
+    job = $cachedJobs.find { |x| x.id == jobid.to_i }
     return "0" if job.nil?
     job.cancel
     return "1"

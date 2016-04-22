@@ -46,12 +46,25 @@ module Utils
             @owner = owner
         end
         
+        def ==(o)
+            o.class == self.class && o.id == @id
+        end
+        
+        def eql?(o)
+            self.==(o)
+        end
+        
+        # Usar outras coisas como hash seria bom, talvez.
+        def hash
+            @id
+        end
+        
         def jobPath
-            return File.join(Utils.getSpoolPath, Utils.getJobFilename(@id))
+            @jobPath ||= File.join(Utils.getSpoolPath, Utils.getJobFilename(@id))
         end
         
         def pageCount
-            return Utils.getJobPageCount(self.jobPath).to_i
+            @pageCount ||= Utils.getJobPageCount(self.jobPath).to_i
         end
         
         def to_json(options = {})
