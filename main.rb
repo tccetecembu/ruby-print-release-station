@@ -7,19 +7,19 @@ require "yaml"
 require "sequel"
 require "pathname"
 
-config = YAML::load_file("./config.yaml")
+$config = YAML::load_file("./config.yaml")
 
-DB = Sequel.sqlite config["database"]
+DB = Sequel.sqlite $config["database"]
 $cachedJobs = []
 
 def updateJobs
-    newJobs = Utils.getJobs config["printer_name"]
+    newJobs = Utils.getJobs $config["printer_name"]
     $cachedJobs.keep_if {|job| newJobs.include? job }
     $cachedJobs = $cachedJobs + [newJobs - $cachedJobs]
 end
 
 use Rack::Auth::Basic do |username, password|
-    [username, password] == [config["username"], config["password"]]
+    [username, password] == [$config["username"], $config["password"]]
 end
 
 get '/api/list' do
@@ -31,7 +31,7 @@ get '/api/resume/all' do
     updateJobs
     $cachedJobs.each { |job|
       job.resume
-      PrintingReport.logPrintJob DB, job, (job.pageCount * config["price_per_page"] + config["price_per_print"]) if config["log_printing"]
+      PrintingReport.logPrintJob DB, job, (job.pageCount * $config["price_per_page"] + $config["price_per_print"]) if $config["log_printing"]
     }
 end
 
@@ -41,7 +41,7 @@ get '/api/resume/:jobid' do |jobid|
     return "0" if job.nil?
     job.resume
     # Deviamos guardar no BD agora, no resume do job, em outro momento? Só Deus sabe.
-    PrintingReport.logPrintJob DB, job, (job.pageCount * config["price_per_page"] + config["price_per_print"]) if config["log_printing"]
+    PrintingReport.logPrintJob DB, job, (job.pageCount * $config["price_per_page"] + $config["price_per_print"]) if $config["log_printing"]
     return "1"
 end
 
@@ -59,11 +59,11 @@ get '/api/cancel/:jobid' do |jobid|
 end
 
 get '/api/price/page' do
-  "#{config["price_per_page"]}"
+  "#{$config["price_per_page"]}"
 end
 
 get '/api/price/print' do
-  "#{config["price_per_print"]}"
+  "#{$config["price_per_print"]}"
 end
 
 get '/api/logs/all' do
