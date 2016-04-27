@@ -1,7 +1,8 @@
 printer_name: "Deskjet_5520_series"
 username: "admin"
 password: "Passw0rd"
-price_per_page: 0.5
+price_per_bw_page: 0.5
+price_per_color_page: 1
 price_per_print: 0.0
 database: "database.db"
 log_printing: true

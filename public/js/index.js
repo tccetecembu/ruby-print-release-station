@@ -5,8 +5,20 @@
  * @license MIT
  */
 
-var pricePerPage = 0;
+var pricePerBwPage = 0;
+var pricePerColorPage = 0;
 var pricePerPrint = 0;
+
+/**
+ * Calcula o preço da impressão, baseado nos valores definidos em pricePerBwPage, pricePerColorPage e pricePerPrint
+ *
+ * @param {Integer} totalPages Numero total de páginas
+ * @param {Integer} colorPages Número de páginas coloridas
+ * @returns Valor da impressão.
+ */
+function calculatePrice(totalPages, colorPages) {
+	return pricePerPrint + colorPages * pricePerColorPage + (totalPages - colorPages) * pricePerBwPage;
+}
 
 /** Recarrega os trabalhos de impressão listados na table #jobs */
 function reloadJobs() {
@@ -28,7 +40,7 @@ function reloadJobs() {
                 html += "<td class='jobId'>"+job.id+"</span>";
                 html += "<td class='title'>"+job.title+"</span>";
                 html += "<td class='pages'>"+job.pageCount+"</span>";
-                html += "<td class='price'>R$ "+(pricePerPrint + pricePerPage*job.pageCount).formatMoney(2);+"</span>";
+                html += "<td class='price'>R$ "+calculatePrice(job.pageCount, job.colorPages).formatMoney(2);+"</span>";
                 html += "<td class='resumeLink'><a href='#' onclick='resumeJob("+job.id+")'>Continuar</a></td>";
                 html += "<td class='cancelLink'><a href='#' onclick='cancelJob("+job.id+")'>Cancelar</span></td>";
                 html += "</tr>";
@@ -82,17 +94,26 @@ function cancelJob(id) {
 }
 
 /**
- * Atualiza os preços nas variáveis pricePerPage e pricePerPrint
+ * Atualiza os preços nas variáveis pricePerBwPage, pricePerColorPage e pricePerPrint
  */
 function getPrices() {
     $.ajax({
         type: 'GET',
-        url: '/api/price/page',
+        url: '/api/price/page/bw',
         dataType: 'json',
         success: function(data) {
-            pricePerPage = data;
+            pricePerBwPage = data;
         }
     });
+	
+	$.ajax({
+		type: 'GET',
+		url: '/api/price/page/color',
+		dataType: 'json',
+		success: function(data) {
+			pricePerColorPage = data;
+		}
+	});
 
     $.ajax({
         type: 'GET',

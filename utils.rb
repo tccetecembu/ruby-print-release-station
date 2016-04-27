@@ -34,6 +34,7 @@ module Utils
     #   - O número de páginas a serem impressas.
     def Utils.getJobPageCount(jobPath)
         # Aparentemente o pkpgcounter não se dá muito bem com arquivos comprimidos, então checar se o arquivo no spooler
+        # TODO Refatorar isso para uma função separada
         compressed = `file #{jobPath} | grep gzip` != ""
         if compressed
             tmpFile = Tempfile.new "rprs"
@@ -43,7 +44,30 @@ module Utils
             return ret
         end
         
-        return `pkpgcounter #{jobPath}`
+        `pkpgcounter #{jobPath}`.to_i
+    end
+    
+    # Calcula o número de páginas coloridas em um trabalho a ser impresso
+    # * *Args*  ;
+    #   - +jobPath+ -> Caminho completo do trabalho a ser impresso, se localiza dentro do spool do CUPS.
+    # * *Returns* :
+    #   - O número de paginas coloridas a serem impressas
+    def Utils.getJobColorPageCount(jobPath)
+        re = /^\W*G\W+:\W+(?<grayscale>[\d.]+)%\W+C\W:\W+(?<color>[\d.]+)%$/
+               
+        # TODO Refatorar isso para uma função separada
+        compressed = `file #{jobPath} | grep gzip` != ""
+        if compressed
+            tmpFile = Tempfile.new "rprs"
+            `gunzip < #{jobPath} > #{tmpFile.path}`
+            out = `pkpgcounter -c GC #{tmpFile.path}`
+            tmpFile.unlink
+            return out.scan(re).count { |grayscale, color| color.to_f > 1 }
+        end
+        
+        out = `pkpgcounter -c GC #{jobPath}`
+        
+        out.scan(re).count { |grayscale, color| color.to_f > 1 }
     end
 
     # Essa classe representa um trabalho de impressão, e as funções necessárias para a sua manipulação.
@@ -97,12 +121,20 @@ module Utils
         
         # O número de páginas a ser impresso por este trabalho.
         def pageCount
-            @pageCount ||= Utils.getJobPageCount(self.jobPath).to_i
+            @pageCount ||= Utils.getJobPageCount(self.jobPath)
+        end
+        
+        def colorPages
+            @colorPages ||= Utils.getJobColorPageCount(self.jobPath)
+        end
+        
+        def grayscalePages
+            self.pageCount - self.colorPages
         end
         
         # Converte esse trabalho para o formato JSON.
         def to_json(options = {})
-            return {'id' => @id, 'title' => @title, 'owner' => @owner, 'pageCount' => self.pageCount}.to_json options
+            return {'id' => @id, 'title' => @title, 'owner' => @owner, 'pageCount' => self.pageCount, 'colorPages' => self.colorPages}.to_json options
         end
         
         # Continua o trabalho de impressão.
