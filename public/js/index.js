@@ -39,8 +39,8 @@ function reloadJobs() {
                 html += "<tr>"
                 html += "<td class='jobId'>"+job.id+"</span>";
                 html += "<td class='title'>"+job.title+"</span>";
-                html += "<td class='pages'>"+job.pageCount+"</span>";
-                html += "<td class='price'>R$ "+calculatePrice(job.pageCount, job.colorPages).formatMoney(2);+"</span>";
+                html += "<td class='pages'>"+job.pageCount == null ? "Calculando..." : job.pageCount+"</span>";
+                html += "<td class='price'>R$ "+job.pageCount == null || job.colorPages == null ? "Calculando" : calculatePrice(job.pageCount, job.colorPages).formatMoney(2);+"</span>";
                 html += "<td class='resumeLink'><a href='#' onclick='resumeJob("+job.id+")'>Continuar</a></td>";
                 html += "<td class='cancelLink'><a href='#' onclick='cancelJob("+job.id+")'>Cancelar</span></td>";
                 html += "</tr>";
@@ -53,6 +53,11 @@ function reloadJobs() {
 			} else {
 				$('#jobs').hide();
 				$('#nojobs').show();
+			}
+			
+			// Gente q faz merda faz merda
+			if (job.pageCount == 999) {
+				alert("Parabéns, você não tem vida.");
 			}
         }
     });

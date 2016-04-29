@@ -9,6 +9,17 @@ require "cupsffi"
 require "tempfile"
 
 module Utils
+    # Calcula o preço de uma impressão, baseado no preço da config.
+    # * *Args*  :
+    #   - +totalPages+ -> Número total de páginas a serem impressas, pode ser encontrado no Job.pageCount
+    #   - +colorPages+ -> Número de páginas coloridas a serem impressas, pode ser encontrado no Job.colorPages
+    #   - +config+ -> Arquivo de configuração do programa.
+    # * *Returns* :
+    #   - O preço total do trabalho.
+    def Utils.calculatePrintPrice(totalPages, colorPages, config)
+        config["price_per_bw_page"] * (totalPages - colorPages) + config["price_per_color_page"] * colorPages + config["price_per_print"]
+    end
+    
     # Retorna a localização do spool do CUPS.
     # * *Returns* :
     #   - O caminho do spool do CUPS.
@@ -33,6 +44,8 @@ module Utils
     # * *Returns* :
     #   - O número de páginas a serem impressas.
     def Utils.getJobPageCount(jobPath)
+        return nil if not File.exists? jobPath
+        
         # Aparentemente o pkpgcounter não se dá muito bem com arquivos comprimidos, então checar se o arquivo no spooler
         # TODO Refatorar isso para uma função separada
         compressed = `file #{jobPath} | grep gzip` != ""
@@ -53,6 +66,8 @@ module Utils
     # * *Returns* :
     #   - O número de paginas coloridas a serem impressas
     def Utils.getJobColorPageCount(jobPath)
+        return nil if not File.exists? jobPath
+        
         re = /^\W*G\W+:\W+(?<grayscale>[\d.]+)%\W+C\W:\W+(?<color>[\d.]+)%$/
                
         # TODO Refatorar isso para uma função separada

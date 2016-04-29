@@ -31,7 +31,7 @@ get '/api/resume/all' do
     updateJobs
     $cachedJobs.each { |job|
         job.resume
-        PrintingReport.logPrintJob DB, job, (job.pageCount * $config["price_per_page"] + $config["price_per_print"]) if $config["log_printing"]
+        PrintingReport.logPrintJob DB, job, Utils.calculatePrintPrice(job.pageCount, job.colorPages, $config) if $config["log_printing"]
     }
 end
 
@@ -41,7 +41,7 @@ get '/api/resume/:jobid' do |jobid|
     return "0" if job.nil?
     job.resume
     # Deviamos guardar no BD agora, no resume do job, em outro momento? Só Deus sabe.
-    PrintingReport.logPrintJob DB, job, (job.pageCount * $config["price_per_page"] + $config["price_per_print"]) if $config["log_printing"]
+    PrintingReport.logPrintJob DB, job, Utils.calculatePrintPrice(job.pageCount, job.colorPages, $config) if $config["log_printing"]
     return "1"
 end
 
@@ -64,6 +64,7 @@ end
 
 get '/api/price/page/color' do
     "#{$config["price_per_color_page"]}"
+end
 
 get '/api/price/print' do
     "#{$config["price_per_print"]}"
