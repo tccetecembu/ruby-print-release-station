@@ -8,6 +8,7 @@
 var pricePerBwPage = 0;
 var pricePerColorPage = 0;
 var pricePerPrint = 0;
+var config = null;
 
 /**
  * Calcula o preço da impressão, baseado nos valores definidos em pricePerBwPage, pricePerColorPage e pricePerPrint
@@ -40,7 +41,7 @@ function reloadJobs() {
                 html += "<td class='jobId'>"+job.id+"</span>";
                 html += "<td class='title'>"+job.title+"</span>";
                 html += "<td class='pages'>"+(job.pageCount == null ? "Calculando..." : job.pageCount)+"</span>";
-                html += "<td class='price'>R$ "+(job.pageCount == null || job.colorPages == null ? "Calculando" : calculatePrice(job.pageCount, job.colorPages).formatMoney(2))+"</span>";
+                html += "<td class='price'>"+(job.pageCount == null || job.colorPages == null ? "Calculando..." : "R$ " + calculatePrice(job.pageCount, job.colorPages).formatMoney(2))+"</span>";
                 html += "<td class='resumeLink'><a href='#' onclick='resumeJob("+job.id+")'>Continuar</a></td>";
                 html += "<td class='cancelLink'><a href='#' onclick='cancelJob("+job.id+")'>Cancelar</span></td>";
                 html += "</tr>";
@@ -142,6 +143,60 @@ function changeBackground() {
 			$('body').css('background-image', 'url('+data+')');
 		}
 	})
+}
+
+/**
+ * Altera os valores dos inputs da janela de configuração baseado na variavel config.
+ */
+function fillSettingsWindow() {
+	$("input[name='price_per_bw_page']").attr("value", config["price_per_bw_page"])
+	$("input[name='price_per_color_page]").attr("value", config["price_per_color_page"])
+	$("input[name='log_printing']").prop("checked", config["log_printing"])	
+}
+
+/**
+ * Carrega as configurações do serviço de controle de impressão e abre a janela de configuração.
+ */
+function openSettingsWindow() {
+	$.ajax({
+		type: 'GET',
+		url: '/api/config',
+		dataType: 'json',
+		success: function(data) {
+			config = data;
+			fillSettingsWindow();
+			$("#settings_window").show();
+		}
+	})
+}
+
+/**
+ * Função para converter texto em moeda que nem um retardado pode fazer dar errado. Eu acho.
+ *
+ * @param {String} text O texto a ser convertido
+ * @returns {Float} O texto convertido em moeda
+ */
+function retardProofTextToMoney(text) {
+	text = text.replace(/[.,](?=[^.,]*[.,])/g, "")
+	text = text.replace(",", ".")
+	text = text.replace(/[^0-9.]/g, "")
+	return Number.parseFloat(text)
+}
+
+/**
+ * Envia as configurações da janela de configuração.
+ */
+function submitSettings() {
+	config["price_per_bw_page"] = retardProofTextToMoney($("input[name='price_per_bw_page']").attr("value"))
+	config["price_per_color_page"] = retardProofTextToMoney($("input[name='price_per_color_page']").attr("value"))
+	config["log_printing"] = $("input[name='log_printing']").is(":checked")
+	
+	$.post('/api/config',
+		{ config: JSON.stringify(config) },
+		function(data) {
+			getPrices();
+		}
+	)
 }
 
 $(document).ready(function() {

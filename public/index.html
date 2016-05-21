@@ -18,7 +18,15 @@
 			<table id="jobs">
 			</table>
 			<a class="logs_link" href="/logs">Relatórios</a>
+			<a class="settings_link" href="#">Configurações</a>
 			<p class="version">v1.0 &mdash; The Steel Monster Above The City</p>
+			
+			<div id="settings_window" hidden>
+				Preço por página preto e branco: <input type="text" value="price_per_bw_page"><br>
+				Preço por página colorida: <input type="text" value="price_per_color_page"><br>
+				Fazer relatórios de impressão: <input type="checkbox" value="log_printing"><br>
+				
+				<input type="button" onclick="submitSettings()">
 		</div>
     </body>
 </html>

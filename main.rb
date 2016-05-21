@@ -35,6 +35,16 @@ get '/api/resume/all' do
     }
 end
 
+get '/api/config' do
+    $config.to_json
+end
+
+post '/api/config' do
+    newconfig = JSON::load params[:config]
+    File.open("./config.yaml", "w") { f.write newconfig.to_yaml }
+    $config = YAML::load_file("./config.yaml")
+end
+
 get '/api/resume/:jobid' do |jobid|
     updateJobs
     job = $cachedJobs.find { |x| x.id == jobid.to_i }

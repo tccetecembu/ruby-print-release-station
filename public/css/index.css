@@ -23,6 +23,31 @@ body {
 	color: #ddd;
 }
 
+.logs_link:visited, .logs_link:link {
+	color: #ddd !important;
+}
+
+.logs_link:hover {
+	color: #eee !important;
+}
+
+.settings_link {
+	position: absolute;
+	top: 1%;
+	right: 0;
+	margin-right: 15%;
+	text-decoration: none !important;
+	color: #ddd;
+}
+
+.settings_link:visited, .settings_link:link {
+	color: #ddd !important;
+}
+
+.settings_link:hover {
+	color: #eee !important;
+}
+
 div#container {
 	position: absolute;
 	width: 90%;
@@ -33,14 +58,6 @@ div#container {
 
 div#nojobs {
 	text-align: center;
-}
-
-.logs_link:visited, .logs_link:link {
-	color: #ddd !important;
-}
-
-.logs_link:hover {
-	color: #eee !important;
 }
 
 .jobid {
@@ -115,6 +132,17 @@ table#jobs tr:nth-child(odd) {
 
 table#jobs tr:nth-child(even) {
     background-color: rgba(0, 0, 0, 0.55);
+}
+
+div#settings_window {
+	position: absolute;
+	color: black;
+	width: 30%;
+	height: 30%;
+	left: 35%;
+	top: 35%;
+	text-align: center;
+	background: rgba(255, 255, 255, 0.8);
 }
 
 p.version {
